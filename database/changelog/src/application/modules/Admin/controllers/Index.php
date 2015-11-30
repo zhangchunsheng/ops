@@ -11,10 +11,6 @@
 class IndexController extends Yaf_Controller_Abstract {
     // default action name
     public function indexAction() {
-        /*$db = Yaf_Registry::get('_db');
-        $data = $db->select("db_changelog", "auth_name", [
-            "id" => "1"
-        ]);*/
-        $this->getView()->content = "Hello World";
+        $this->getView()->content = "Hello Admin";
     }
 }

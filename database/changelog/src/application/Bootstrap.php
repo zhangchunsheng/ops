@@ -26,15 +26,16 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
     public function _initRoute(Yaf_Dispatcher $dispatcher) {
         //在这里注册自己的路由协议,默认使用简单路由
         //print_r( $routes = Yaf_Dispatcher::getInstance()->getRouter()->getRoute("default"));
+        //根据"/"对request_uri分段, 依次得到Module,Controller,Action
         Yaf_Dispatcher::getInstance()->getRouter()->addRoute(
             "supervar",new Yaf_Route_Supervar("r")
         );
+        //module controller action
         Yaf_Dispatcher::getInstance()->getRouter()->addRoute(
             "simple", new Yaf_Route_simple('m', 'c', 'a')
         );
         $route  = new Yaf_Route_Rewrite(
-            //"/auditlog/list/:id/:name",
-            "/index/get",
+            "/auditlog/list/:id/:name",
             array(
                 "controller" => "item",
                 "action"     => "get",
@@ -44,6 +45,19 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
             "auditlog", $route
         );
         //$dispatcher->setDefaultModule("index")->setDefaultController("index")->setDefaultAction("index");
+    }
+
+    public function _initModules(Yaf_Dispatcher $dispatcher) {
+        $app = $dispatcher->getApplication();
+
+        $modules = $app->getModules();
+        foreach ($modules as $module) {
+            if ('index' == strtolower($module)) {
+                continue;
+            }
+
+            require_once $app->getAppDirectory() . "/modules" . "/$module" . "/_init.php";
+        }
     }
 
     public function _initView(Yaf_Dispatcher $dispatcher) {

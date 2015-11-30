@@ -12,6 +12,7 @@ date_default_timezone_set('Asia/Shanghai');
 
 define("APPLICATION_PATH",  dirname(dirname(__FILE__)));
 define('APP_PATH', dirname(__FILE__) . '/../');
+define('DEBUG', 1);
 
 if(!extension_loaded("yaf")){
     include(APPLICATION_PATH . '/globals/framework/loader.php');
